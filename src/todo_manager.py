@@ -2,13 +2,16 @@ import mysql.connector
 import argparse
 from datetime import datetime, timedelta
 from tabulate import tabulate
-
+import json
 
 def get_db_connection():
+    with open('config.json','r') as f:
+        config = json.load(f)
+
     connection = mysql.connector.connect(
         host='localhost',
-        user='darshan',
-        password='mypassword',
+        user=config['user'],
+        password=config['password'],
         database='TODO_MANAGER'
     )
     return connection  
@@ -199,6 +202,9 @@ def main():
         task_report(last_n_days=args.last)
     elif args.command =="add_comment":
         add_comment(args.task_id)
+
+    else:
+        print("No command provided.")    
         
 
 
